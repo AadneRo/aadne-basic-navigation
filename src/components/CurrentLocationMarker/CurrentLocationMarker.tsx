@@ -10,16 +10,15 @@ const CurrentLocationMarker = () => {
     locationfound(e) {
       setPosition(e.latlng);
       map.flyTo(e.latlng, map.getZoom());
-    }
+    },
   });
+
+  if (!position) return null;
+
   return (
-    <>
-      {position && (
-        <Marker position={position}>
-          <Popup>You are here</Popup>
-        </Marker>
-      )}
-    </>
+    <Marker position={position}>
+      <Popup>You are here</Popup>
+    </Marker>
   );
 };
 
