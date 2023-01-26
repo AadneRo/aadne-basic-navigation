@@ -18,7 +18,7 @@ const LocationProvider = ({ children }: Props) => {
   const values: LocationContext = { coordinates, setCoordinates };
 
   return (
-    <LocationContext.Provider value={...values}>
+    <LocationContext.Provider value={values}>
       {children}
     </LocationContext.Provider>
   );

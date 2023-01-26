@@ -3,6 +3,8 @@
   text-align: center;
 }
 
+// TODO: Review map container
+
 .leaflet-container,
 .map-container {
   width: 100%;
