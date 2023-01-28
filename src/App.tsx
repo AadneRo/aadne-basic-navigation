@@ -1,8 +1,8 @@
-import "leaflet/dist/leaflet.css";
-import "./styles.css";
-
 import { Map, ActionSection } from "./components";
 import LocationProvider from "./providers/LocationProvider";
+
+import "leaflet/dist/leaflet.css";
+import "./styles.css";
 
 export default function App() {
   return (
