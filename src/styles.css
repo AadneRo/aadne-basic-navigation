@@ -1,11 +1,31 @@
 .App {
   font-family: sans-serif;
   text-align: center;
+  /* height: 100%; */
 }
 
 .leaflet-container,
 .map-container {
   width: 100%;
-  height: 100vh;
+  height: 80vh;
   z-index: 1;
+}
+
+.action-section-container {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.weather-widget-container {
+  z-index: 100;
+
+  height: 100%;
+  width: 100%;
+
+  margin-top: -1rem;
+
+  position: static;
+
+  background-color: red;
 }

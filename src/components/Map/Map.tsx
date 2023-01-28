@@ -1,13 +1,14 @@
 import { MapContainer, TileLayer } from "react-leaflet";
 import { OSLO_COORDINATES } from "./../../constants";
 import "leaflet/dist/leaflet.css";
-import { CurrentLocationMarker } from "./../";
+import { CurrentLocationMarker, TargetLocationMarker } from "./../";
+import WeatherWidget from "../WeatherWidget/WeatherWidget";
 
 const Map = () => {
   return (
     <div>
       <MapContainer
-        center={[OSLO_COORDINATES.Y, OSLO_COORDINATES.X]}
+        center={[OSLO_COORDINATES.lat, OSLO_COORDINATES.lng]}
         zoom={13}
         scrollWheelZoom={false}
       >
@@ -16,6 +17,8 @@ const Map = () => {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <CurrentLocationMarker />
+        <TargetLocationMarker />
+        <WeatherWidget />
       </MapContainer>
     </div>
   );

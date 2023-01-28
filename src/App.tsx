@@ -1,5 +1,7 @@
+import "leaflet/dist/leaflet.css";
 import "./styles.css";
-import { Map } from "./components";
+
+import { Map, ActionSection } from "./components";
 import LocationProvider from "./providers/LocationProvider";
 
 export default function App() {
@@ -7,6 +9,8 @@ export default function App() {
     <div className="App">
       <LocationProvider>
         <Map />
+
+        <ActionSection />
       </LocationProvider>
     </div>
   );
