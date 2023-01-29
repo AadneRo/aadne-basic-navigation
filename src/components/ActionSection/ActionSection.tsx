@@ -1,34 +1,35 @@
-import { WeatherWidget } from "./../";
 import Button from "@mui/material/Button";
-import { useState } from "react";
+import Drawer from "@mui/material/Drawer";
+import { useContext, useState } from "react";
+import { LocationContext } from "../../providers/LocationProvider";
 
 function ActionSection() {
-  const [weatherHidden, setWeatherHidden] = useState(true);
-  const [targetInputHidden, setTargetInputHidden] = useState(true);
-
-  function getWeather() {
-    if (weatherHidden) return null;
-
-    return <WeatherWidget />;
-  }
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  // const [targetInputHidden, setTargetInputHidden] = useState(true);
+  const { fetchDirections, coorddinatesPath } = useContext(LocationContext);
 
   return (
     <>
       <div className="action-section-container">
         <Button
+          disabled={coorddinatesPath.length === 0}
+          fullWidth
           variant="outlined"
-          onClick={() => setWeatherHidden(!weatherHidden)}
+          onClick={() => setIsDrawerOpen(true)}
         >
-          {weatherHidden ? "Weather" : "Hide"}
+          Get
         </Button>
-        <Button
-          variant="outlined"
-          onClick={() => setTargetInputHidden(!targetInputHidden)}
-        >
-          {targetInputHidden ? "Add destination" : "Cancel"}
+        <Button fullWidth variant="outlined" onClick={fetchDirections}>
+          Get directions
         </Button>
       </div>
-      {getWeather()}
+      <Drawer
+        anchor="bottom"
+        open={isDrawerOpen}
+        onClose={() => setIsDrawerOpen(false)}
+      >
+        <div>Hello</div>
+      </Drawer>
     </>
   );
 }

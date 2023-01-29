@@ -9,18 +9,21 @@ const MOCK_LOCATION: Coordinate = {
 };
 
 const CurrentLocationMarker = () => {
-  const { setLocation } = useContext(LocationContext);
-  const [position, setPosition] = useState(null);
+  const { setStart } = useContext(LocationContext);
+  const [position, setPosition] = useState<Coordinate>();
 
-  const map = useMapEvents({
+  useMapEvents({
     click() {
-      map.locate();
-      setLocation(MOCK_LOCATION);
+      // map.locate();
+      setPosition(MOCK_LOCATION);
+      setStart(MOCK_LOCATION);
+      // map.flyTo(MOCK_LOCATION, map.getZoom());
     },
     locationfound(e) {
-      setPosition(e.latlng);
-      map.flyTo(e.latlng, map.getZoom());
+      // setPosition(e.latlng);
     }
+
+    // map.flyTo()
   });
 
   if (!position) return null;

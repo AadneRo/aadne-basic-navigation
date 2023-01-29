@@ -1,7 +1,8 @@
-import { useMapEvents, Polyline } from "react-leaflet";
+import { useMapEvents, Polyline, Marker } from "react-leaflet";
 import L from "leaflet";
-import { useContext } from "react";
-
+import { useContext, useState } from "react";
+import { LocationContext } from "../../providers/LocationProvider";
+import { Coordinate } from "./../../types";
 // import DirectionToMarker from "../DirectionToMarker/DirectionToMarker";
 
 const icon = L.icon({
@@ -15,40 +16,41 @@ const icon = L.icon({
 function TargetLocationMarker() {
   // const {} = useContext(DestinationContext);
 
-  const map = useMapEvents({
+  const { coorddinatesPath, setEnd } = useContext(LocationContext);
+
+  const [markerPosition, setMarkerPosistion] = useState<Coordinate>();
+
+  useMapEvents({
     click: (e) => {
-      const { lat, lng } = e.latlng;
-      L.marker([lat, lng], { icon }).addTo(map);
-      // saveMarkers([lat, lng]);
+      const targetCoordinates = e.latlng;
+      setMarkerPosistion(targetCoordinates);
+      setEnd(targetCoordinates);
     }
   });
 
-  const array = [
-    [59.920195662518516, 10.738449096679688],
-    [59.923634425231874, 10.734844207763674],
-    [0.92750260735079, 10.72540283203125]
-  ];
+  console.log("coorddinatesPath", coorddinatesPath);
+  console.log("markerPosition", markerPosition);
 
-  // useEffect(() => {
-  //   axios
-  //     .get
-  //     // "https://api.openrouteservice.org/v2/directions/driving-car?api_key=&start=8.681495,49.41461&end=8.687872,49.420318"
-  //     //getDirectionMatrixEndpoint(start, end)
-  //     ()
-  //     .then((res) => {
-  //       const data = res.data;
-  //       setDirectionData(data);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }, [start, end]);
+  const position = coorddinatesPath.map((value) => {
+    return { lng: value[0], lat: value[1] };
+  });
 
-  //Direction at features.geometry.coorddinates
+  const getMarker = () => {
+    if (!markerPosition) return null;
+
+    return <Marker position={markerPosition} icon={icon} />;
+  };
+
+  const getPolyLine = () => {
+    if (coorddinatesPath.length === 0) return null;
+
+    return <Polyline pathOptions={{ color: "blue" }} positions={position} />;
+  };
 
   return (
     <div>
-      <Polyline pathOptions={{ color: "lime" }} positions={array} />
+      {getMarker()}
+      {getPolyLine()}
     </div>
   );
 }

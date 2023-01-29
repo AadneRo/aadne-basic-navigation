@@ -2,7 +2,6 @@ import { MapContainer, TileLayer } from "react-leaflet";
 import { OSLO_COORDINATES } from "./../../constants";
 import "leaflet/dist/leaflet.css";
 import { CurrentLocationMarker, TargetLocationMarker } from "./../";
-import WeatherWidget from "../WeatherWidget/WeatherWidget";
 
 const Map = () => {
   return (
@@ -18,7 +17,6 @@ const Map = () => {
         />
         <CurrentLocationMarker />
         <TargetLocationMarker />
-        <WeatherWidget />
       </MapContainer>
     </div>
   );
