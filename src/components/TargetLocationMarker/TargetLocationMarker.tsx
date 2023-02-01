@@ -3,7 +3,6 @@ import L from "leaflet";
 import { useContext, useState } from "react";
 import { LocationContext } from "../../providers/LocationProvider";
 import { Coordinate } from "./../../types";
-// import DirectionToMarker from "../DirectionToMarker/DirectionToMarker";
 
 const icon = L.icon({
   iconSize: [25, 41],
@@ -14,8 +13,6 @@ const icon = L.icon({
 });
 
 function TargetLocationMarker() {
-  // const {} = useContext(DestinationContext);
-
   const { coorddinatesPath, setEnd } = useContext(LocationContext);
 
   const [markerPosition, setMarkerPosistion] = useState<Coordinate>();

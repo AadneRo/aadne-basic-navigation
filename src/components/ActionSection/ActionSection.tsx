@@ -2,11 +2,15 @@ import Button from "@mui/material/Button";
 import Drawer from "@mui/material/Drawer";
 import { useContext, useState } from "react";
 import { LocationContext } from "../../providers/LocationProvider";
+import DirectionDescription from "../DirectionDescription/DirectionDescription";
 
 function ActionSection() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  // const [targetInputHidden, setTargetInputHidden] = useState(true);
-  const { fetchDirections, coorddinatesPath } = useContext(LocationContext);
+  const {
+    fetchDirections,
+    coorddinatesPath,
+    directionDescriptionList
+  } = useContext(LocationContext);
 
   return (
     <>
@@ -17,7 +21,7 @@ function ActionSection() {
           variant="outlined"
           onClick={() => setIsDrawerOpen(true)}
         >
-          Get
+          Start GPS
         </Button>
         <Button fullWidth variant="outlined" onClick={fetchDirections}>
           Get directions
@@ -28,7 +32,7 @@ function ActionSection() {
         open={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}
       >
-        <div>Hello</div>
+        <DirectionDescription steps={directionDescriptionList} />
       </Drawer>
     </>
   );

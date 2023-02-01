@@ -1,7 +1,6 @@
 .App {
   font-family: sans-serif;
   text-align: center;
-  /* height: 100%; */
 }
 
 .leaflet-container {
@@ -14,4 +13,11 @@
   margin-top: 1rem;
   display: flex;
   justify-content: space-between;
+}
+
+.direction-guide-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }

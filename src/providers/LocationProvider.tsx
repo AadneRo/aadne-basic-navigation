@@ -1,8 +1,66 @@
-import React, { createContext, useEffect, useState } from "react";
-import { Coordinate, DirectionsEndpoint } from "./../types";
+import React, { createContext, useState } from "react";
+import { Coordinate, DirectionsEndpoint, Step } from "./../types";
 import axios from "axios";
 import { getDirectionMatrixEndpoint } from "./../services";
 
+export const LocationContext = createContext<{
+  setStart: (coordinate: Coordinate) => null;
+  setEnd: (coordinate: Coordinate) => null;
+  fetchDirections: () => null;
+  coorddinatesPath: number[][];
+  directionDescriptionList: Step[];
+}>({
+  setStart: () => null,
+  setEnd: () => null,
+  fetchDirections: () => null,
+  coorddinatesPath: [],
+  directionDescriptionList: []
+});
+
+function LocationProvider({ children }: { children: React.ReactNode }) {
+  const [start, setStart] = useState<Coordinate>();
+  const [end, setEnd] = useState<Coordinate>();
+  const [responseData, setResponseData] = useState<DirectionsEndpoint>();
+
+  const fetchDirections = () => {
+    if (start === undefined || end === undefined) {
+      return;
+    }
+
+    const endpoint = getDirectionMatrixEndpoint(start, end);
+
+    axios
+      .get(endpoint)
+      .then((res) => {
+        const data = res.data;
+        setResponseData(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const contextValues = {
+    setStart,
+    setEnd,
+    fetchDirections,
+    coorddinatesPath: responseData?.features[0]?.geometry.coordinates || [],
+    directionDescriptionList:
+      responseData?.features[0]?.properties.segments[0].steps || []
+  };
+
+  return (
+    <LocationContext.Provider value={contextValues}>
+      {children}
+    </LocationContext.Provider>
+  );
+}
+
+export default LocationProvider;
+
+/** 
+ * IN CASE OF LOST API KEY USE THIS 
+ * 
 const MOCK_DATA: DirectionsEndpoint = {
   type: "FeatureCollection",
   features: [
@@ -255,53 +313,4 @@ const MOCK_DATA: DirectionsEndpoint = {
   }
 };
 
-export const LocationContext = createContext<{
-  setStart: (coordinate: Coordinate) => null;
-  setEnd: (coordinate: Coordinate) => null;
-  fetchDirections: () => null;
-  coorddinatesPath: number[][];
-}>({
-  setStart: () => null,
-  setEnd: () => null,
-  fetchDirections: () => null,
-  coorddinatesPath: []
-});
-
-function LocationProvider({ children }: { children: React.ReactNode }) {
-  const [start, setStart] = useState<Coordinate>();
-  const [end, setEnd] = useState<Coordinate>();
-  const [responseData, setResponseData] = useState<DirectionsEndpoint>();
-
-  const fetchDirections = () => {
-    if (start === undefined || end === undefined) {
-      return;
-    }
-
-    const endpoint = getDirectionMatrixEndpoint(start, end);
-
-    axios
-      .get(endpoint)
-      .then((res) => {
-        const data = res.data;
-        setResponseData(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  const contextValues = {
-    setStart,
-    setEnd,
-    fetchDirections,
-    coorddinatesPath: responseData?.features[0]?.geometry.coordinates || []
-  };
-
-  return (
-    <LocationContext.Provider value={contextValues}>
-      {children}
-    </LocationContext.Provider>
-  );
-}
-
-export default LocationProvider;
+*/
